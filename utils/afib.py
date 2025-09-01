@@ -1411,11 +1411,14 @@ warnings.filterwarnings("ignore", category=ConvergenceWarning)
 # from block10 import scale_encode_features
 # from block11 import initialize_models, perform_cross_validation, evaluate_models
 # from block12 import plot_prob_counts
-
-MY_PATH = "/Users/ander428/Documents/Github/Feature-importance-with-fairness-mitigation/data/"
+# os.path.join(os.getcwd(), 'data')
+# MY_PATH = "/Users/ander428/Documents/Github/Feature-importance-with-fairness-mitigation/data/"
+MY_PATH = os.path.join(os.getcwd(), 'data/')
+if not os.path.exists(MY_PATH + 'temp/'):
+    os.makedirs(MY_PATH + 'temp/')
 
 # Path for the input and output CSV file
-input_file_path = '/Users/ander428/Documents/Github/Feature-importance-with-fairness-mitigation/data/afib_revised_082025.csv'
+input_file_path = MY_PATH + 'afib_revised_082025.csv'
 output_file_path = MY_PATH + 'temp/preprocessed_data_block1.csv'
 
 # Select and save the columns to be included in the data and save it to a file
@@ -1544,3 +1547,10 @@ train_set_scaled_encoded, test_set_non_comorbid_scaled_encoded, test_set_random_
 )
 print("Block10 feature scaling and target encoding completed.")
 print(train_set_scaled_encoded)
+
+if os.path.exists(MY_PATH + 'temp/'):
+    if os.path.exists(MY_PATH + 'temp/'):
+        for root, dirs, files in os.walk(MY_PATH + 'temp/', topdown=False):
+            for file in files:
+                os.remove(os.path.join(root, file))
+        os.rmdir(MY_PATH + 'temp/')
