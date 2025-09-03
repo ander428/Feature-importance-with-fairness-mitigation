@@ -26,14 +26,11 @@ def load_datasets():
     COMPAS['data'] = pd.get_dummies(COMPAS['data'])
     COMPAS['target'] = data['score_factor'][COMPAS['data'].index] == 'HighScore'
     
-    # data = fetch_diabetes_hospital()
-    # diabetes = {}
-    # diabetes['data'] = data.data[["race", "gender", "age", "time_in_hospital", "had_inpatient_days", "medicare", "insulin", "had_emergency"]].loc[data.data['primary_diagnosis'] == "Diabetes"]
-    # diabetes['data']['race'] = diabetes['data']['race'].values == "AfricanAmerican"
-    # diabetes['data'] = pd.get_dummies(diabetes['data'])
-    # diabetes['data'] = diabetes['data'].drop(["had_inpatient_days_False", "medicare_False", "had_emergency_False"], axis=1)
-    # diabetes['data'].columns = diabetes['data'].columns.str.replace('_True', '', regex=False)
-    # diabetes['target'] = data.target
+    data = pd.read_csv("data/afib_revised_082025_scaled_train_set_block10.csv")
+    AFIB = {}
+    data = data.rename(columns={'Black_Race_1.0': 'race'})
+    AFIB['data'] = data.drop(['MBE_1year'], axis=1)
+    AFIB['target'] = data.loc[:, 'MBE_1year']
 
     data = pd.read_csv("data/UTI Calc - Derivation dataset 2023Mar06.csv").drop('seqno', axis=1).dropna()
     UTI = {}
@@ -42,10 +39,10 @@ def load_datasets():
     UTI['data'] = UTI['data'].drop('nonblack', axis=1)
     UTI['target'] = data.loc[:,"UTI - alternative definition"]
 
-    # datasets = [(COMPAS, "COMPAS"), (diabetes, "Diabetes"), (UTI, "UTI")]
+    datasets = [(COMPAS, "COMPAS"), (AFIB, "AFIB"), (UTI, "UTI")]
 
     # alternate outputs for testing
-    datasets = [(COMPAS, "COMPAS"),(UTI, "UTI")]
+    # datasets = [(COMPAS, "COMPAS"),(UTI, "UTI")]
     # datasets = [(UTI, "UTI")]
     return datasets
 

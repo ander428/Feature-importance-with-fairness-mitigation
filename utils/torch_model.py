@@ -60,7 +60,7 @@ class SimpleNN(nn.Module):
 
         return total_loss / len(train_loader)
     
-    def fit(self, X, y, epochs=10, lr=1e-3, report=0):
+    def fit(self, X, y, epochs=1000, lr=1e-3, report=0):
         # Normalize features
         scaler = StandardScaler()
         X = scaler.fit_transform(X)
