@@ -226,24 +226,6 @@ def wilcoxon_across_df(df):
         p_vals[col] = p_val
     return p_vals
 
-
-def plot_results(result_df, dataset_name):
-    plot_data = result_df.T.reset_index().copy()
-    plot_data.columns = ['_'.join(col) for col in plot_data.columns]
-    plot_data_melted = plot_data.reset_index().melt(id_vars=['index_'], value_vars=plot_data.columns)
-    plot_data_melted.columns = ['Feature', 'Model_Race', 'Coefficient']
-    # Extract 'Model' and 'Race' from 'Model_Race'
-    plot_data_melted[['Model', 'Race']] = plot_data_melted['Model_Race'].str.split('_', expand=True)
-
-    plt.figure(figsize=(12, 8))  # Width=12, Height=8
-    return (
-    ggplot(plot_data_melted, aes(x='Feature', y='Coefficient', fill='Race')) +
-        geom_bar(stat='identity', position='dodge') +
-        facet_wrap("~Model") +
-        coord_flip() +
-        labs(title=f"Difference in SHAP values after \nfairness pre-processing for {dataset_name}", y=r"SHAP difference ($SHAP_{fair} - SHAP_{base}$)")
-    )
-
 def process_dataset_results(dataset_results, PRINT=False):
     def format_df(df, cohort):
         p_values_b, p_values_o =  df.groupby(cohort).apply(wilcoxon_across_df)

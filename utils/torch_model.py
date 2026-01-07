@@ -36,6 +36,7 @@ class SimpleNN(nn.Module):
     
     def forward(self, x):
         return self.net(x)
+        
 class SimpleNNWrapper(BaseEstimator, ClassifierMixin):
     def __init__(self, input_dim, output_dim, epochs=5, device=None, lr=1e-3, batch_size=512):
         self.input_dim = input_dim
